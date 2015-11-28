@@ -18,8 +18,44 @@ NOTES: Don't create new string.
 */
 
 #include <stdio.h>
-
-
-void number_to_str(float number, char *str,int afterdecimal){
-	
+void reverse(char*, int);
+void number_to_str(float number, char *str, int afterdecimal) {
+	int actualNumber = (int)number, decimalPos = -1;
+	if (afterdecimal == 1) {
+		actualNumber = (int)(number * (10));
+		decimalPos = 1;
+	}
+	else if (afterdecimal == 2) {
+		actualNumber = (int)(number * (10 * 10));
+		decimalPos = 2;
+	}
+	if (number < 0)
+		actualNumber = -(int)(actualNumber);
+	else
+		actualNumber = (int)actualNumber;
+	int temp = actualNumber, remainder, i = 0, pos = 0;
+	while (temp != 0) {
+		if (pos++ == decimalPos)
+			str[i++] = '.';
+		else {
+			remainder = temp % 10;
+			str[i++] = (char)(48 + remainder);
+			temp /= 10;
+		}
+	}
+	if (number < 0) {
+		str[i] = '-';
+		i++;
+	}
+	str[i] = '\0';
+	reverse(str, i);
+}
+void reverse(char *str, int len) {
+	int i = 0, j = len - 1;
+	char temp;
+	while (i < j) {
+		temp = str[i];
+		str[i++] = str[j];
+		str[j--] = temp;
+	}
 }
